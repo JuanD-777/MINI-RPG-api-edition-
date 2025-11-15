@@ -39,10 +39,7 @@ def home():
 #  Swagger envía nombre como Query → SE ACEPTA COMO QUERY
 # ------------------------------
 @app.post("/start")
-def start(name: str = Form(...)):
-    return {"message": f"Jugador {name} creado. ¡Listo para jugar!"}
-    """Inicializa un jugador y un enemigo aleatorio."""
-
+def start_game(name: str = Form(...)):
     player = hero(
         name=name,
         health=20,
@@ -145,6 +142,7 @@ def game_status():
             "loot": monster.loot,
         }
     }
+
 
 
 
