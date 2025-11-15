@@ -1,6 +1,7 @@
 from typing import Optional, Dict, Any
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
+from fastapi.responses import HTMLResponse
 
 import random
 
@@ -26,9 +27,10 @@ class action(BaseModel):
     action: str  # ataque, heal, etc.
 
 
-@app.get("/")
-def root():
-    return {"message": "API funcionando. Usa /start para iniciar el juego."}
+@app.get("/", response_class=HTMLResponse)
+def home():
+    with open("index.html") as f:
+        return f.read()
 
 
 # ------------------------------
@@ -141,4 +143,5 @@ def game_status():
             "loot": monster.loot,
         }
     }
+
 
