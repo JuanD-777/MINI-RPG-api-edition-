@@ -5,6 +5,8 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi import Form
 from fastapi.templating import Jinja2Templates
 from fastapi import Request
+import os
+import uvicorn
 
 templates = Jinja2Templates(directory="templates")
 
@@ -114,4 +116,8 @@ async def action(request: Request, action: str = Form(...)):
         )
 
     return RedirectResponse(url="/battle", status_code=303)
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))  # Railway asigna PORT
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
 
