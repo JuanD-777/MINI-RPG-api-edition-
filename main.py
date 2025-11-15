@@ -20,17 +20,11 @@ game_state: Dict[str, Any] = {
     "last_log": ""
 }
 
-# --------------------------
-# HOME → FORM HTML
-# --------------------------
 @app.get("/", response_class=HTMLResponse)
 def home():
     with open("index.html") as f:
         return f.read()
 
-# --------------------------
-# INICIAR PARTIDA
-# --------------------------
 @app.post("/start")
 def start_game(name: str = Form(...)):
     player = hero(
@@ -57,9 +51,6 @@ def start_game(name: str = Form(...)):
 
     return RedirectResponse(url="/battle", status_code=303)
 
-# --------------------------
-# MOSTRAR PÁGINA DE BATALLA
-# --------------------------
 @app.get("/battle", response_class=HTMLResponse)
 async def battle_page(request: Request):
     if not game_state["player"] or not game_state["monster"]:
@@ -83,9 +74,6 @@ async def battle_page(request: Request):
         }
     )
 
-# --------------------------
-# ACCIONES DE COMBATE
-# --------------------------
 @app.post("/action", response_class=HTMLResponse)
 async def action(request: Request, action: str = Form(...)):
     player = game_state["player"]
@@ -94,17 +82,14 @@ async def action(request: Request, action: str = Form(...)):
     if not player or not monster:
         return RedirectResponse("/", status_code=303)
 
-    # ⚠️ PRIMERA VALIDACIÓN: El monstruo ya está muerto
     if monster.health <= 0:
         game_state["last_log"] = "¡El enemigo ya está derrotado!"
         return RedirectResponse("/battle", status_code=303)
 
     if action == "attack":
-        # Daño jugador → enemigo
         player_damage = player.strength + player.damage
         monster.health -= player_damage
 
-        # ⚠️ SEGUNDA VALIDACIÓN: el enemigo murió por el golpe
         if monster.health <= 0:
             game_state["last_log"] = (
                 f"Atacaste e hiciste {player_damage} de daño. "
@@ -112,11 +97,9 @@ async def action(request: Request, action: str = Form(...)):
             )
             return RedirectResponse("/battle", status_code=303)
 
-        # Daño enemigo → jugador (solo si sigue vivo)
         monster_damage = monster.strength + monster.damage
         player.health -= monster_damage
 
-        # ⚠️ TERCERA VALIDACIÓN: jugador murió
         if player.health <= 0:
             game_state["last_log"] = (
                 f"Atacaste e hiciste {player_damage} de daño. "
@@ -125,7 +108,6 @@ async def action(request: Request, action: str = Form(...)):
             )
             return RedirectResponse("/battle", status_code=303)
 
-        # Si ambos siguen vivos
         game_state["last_log"] = (
             f"Atacaste e hiciste {player_damage} de daño. "
             f"El enemigo te hizo {monster_damage} de daño."
