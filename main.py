@@ -106,7 +106,7 @@ async def action(request: Request, action: str = Form(...)):
             game_state["last_log"] = (
                 f"Atacaste e hiciste {player_damage} de daño. "
                 f"El enemigo te hizo {monster_damage} de daño. "
-                f"❌ Has sido derrotado..."
+                f"Has sido derrotado..."
             )
             return RedirectResponse("/battle", status_code=303)
 
@@ -120,4 +120,5 @@ async def action(request: Request, action: str = Form(...)):
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 8000))  # Railway asigna PORT
     uvicorn.run("main:app", host="0.0.0.0", port=port)
+
 
