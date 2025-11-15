@@ -117,8 +117,5 @@ async def action(request: Request, action: str = Form(...)):
 
     return RedirectResponse(url="/battle", status_code=303)
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))  # Railway asigna PORT
-    uvicorn.run("main:app", host="0.0.0.0", port=port)
 
 
