@@ -35,16 +35,23 @@ def root():
 #  🚀 RUTA CORRECTA /start
 #  Swagger envía nombre como Query → SE ACEPTA COMO QUERY
 # ------------------------------
-@app.api_route("/start", methods=["GET", "POST"])
-def start_game(name: str = "Jugador"):
-    """Inicializa el juego creando un personaje y un enemigo aleatorio."""
+@app.post("/start")
+def start_game(name: str = Query(..., description="Nombre del jugador")):
+    """Inicializa un jugador y un enemigo aleatorio."""
 
-    player = hero(name=name, health=20, strength=5, special_weapon="wood Sword", damage=8)
-    player.easter_name(name)
+    player = hero(
+        name=name,
+        health=20,
+        strength=5,
+        special_weapon="wood Sword",
+        damage=8
+    )
+
+    player.easter_name()
 
     monster = Enemy(
         name="skeleton",
-        health=10,
+        health=500,
         strength=3,
         special_weapon="rusty bones",
         damage=4,
@@ -55,10 +62,11 @@ def start_game(name: str = "Jugador"):
     game_state["monster"] = monster
 
     return {
-        "message": "Juego iniciado",
+        "message": f"Juego iniciado para {name}",
         "player": str(player),
         "monster": str(monster)
     }
+
 
 @app.post("/action")
 def player_action(action: action):
