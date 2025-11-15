@@ -1,0 +1,20 @@
+<h2>Batalla en curso</h2>
+
+<h3>Jugador</h3>
+<p>Nombre: {{ player_name }}</p>
+<p>Vida: {{ player_hp }}</p>
+<p>Fuerza: {{ player_strength }}</p>
+<p>Arma: {{ player_weapon }}</p>
+
+<h3>Enemigo</h3>
+<p>Nombre: {{ monster_name }}</p>
+<p>Vida: {{ monster_hp }}</p>
+<p>Fuerza: {{ monster_strength }}</p>
+<p>Arma: {{ monster_weapon }}</p>
+
+<h3>Último turno:</h3>
+<p>{{ log_message }}</p>
+
+<form action="/action" method="POST">
+    <button name="action" value="attack">Atacar</button>
+</form>
