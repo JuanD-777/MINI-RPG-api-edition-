@@ -33,11 +33,6 @@ def home():
     with open("index.html") as f:
         return f.read()
 
-
-# ------------------------------
-#  🚀 RUTA CORRECTA /start
-#  Swagger envía nombre como Query → SE ACEPTA COMO QUERY
-# ------------------------------
 @app.post("/start")
 def start_game(name: str = Form(...)):
     player = hero(
@@ -142,8 +137,3 @@ def game_status():
             "loot": monster.loot,
         }
     }
-
-
-
-
-
