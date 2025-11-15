@@ -2,6 +2,7 @@ from typing import Optional, Dict, Any
 from fastapi import FastAPI, HTTPException, Query
 from pydantic import BaseModel
 from fastapi.responses import HTMLResponse
+from fastapi import Form
 
 import random
 
@@ -143,5 +144,6 @@ def game_status():
             "loot": monster.loot,
         }
     }
+
 
 
